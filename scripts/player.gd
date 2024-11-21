@@ -26,7 +26,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 		#so that the player doesnt face where the camera moves
-		visuals.rotate_y(deg_to_rad(event.relative.x*sens_horizontal))
+		#visuals.rotate_y(deg_to_rad(event.relative.x*sens_horizontal))
 		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sens_vertical))
 	
 
