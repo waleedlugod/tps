@@ -9,6 +9,7 @@ extends CharacterBody3D
 
 var bullet_scene = preload('res://scenes/bullet.tscn')
 signal bullet_shot(origin, direction)
+var bullet_spray = 0.02
 
 var SPEED = 2.5
 const JUMP_VELOCITY = 4.5
@@ -18,6 +19,8 @@ var running_speed = 6.0
 var running = false
 
 var is_locked = false
+
+var rng = RandomNumberGenerator.new()
 
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
@@ -43,7 +46,9 @@ func _physics_process(delta: float) -> void:
 		var bullet = bullet_scene.instantiate()
 		add_child(bullet)
 		bullet.global_position = player_ray.global_position
-		bullet.direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
+		var target_direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
+		var spray = Vector3(rng.randf_range(-bullet_spray, bullet_spray), rng.randf_range(-bullet_spray, bullet_spray), 0)
+		bullet.direction = (target_direction + spray).normalized()
 
 	
 	if !animation_player.is_playing():
