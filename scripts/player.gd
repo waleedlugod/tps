@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @onready var camera_mount: Node3D = $camera_mount
+@onready var camera: Node3D = $camera_mount/Camera3D
 @onready var animation_player = $visuals/mixamo_base/AnimationPlayer
 @onready var visuals = $visuals
 

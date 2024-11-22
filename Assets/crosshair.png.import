@@ -2,27 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nmunal5vj775"
-path.s3tc="res://.godot/imported/shotgun texture.png-fe5524f7033af99b72ecd163b2520f7e.s3tc.ctex"
+uid="uid://c37wqpenvdmvb"
+path="res://.godot/imported/crosshair.png-7bed3294e640fe9ca357247b0602b756.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Voxel Character by RgsDev/shotgun texture.png"
-dest_files=["res://.godot/imported/shotgun texture.png-fe5524f7033af99b72ecd163b2520f7e.s3tc.ctex"]
+source_file="res://Assets/crosshair.png"
+dest_files=["res://.godot/imported/crosshair.png-7bed3294e640fe9ca357247b0602b756.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
