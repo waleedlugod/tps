@@ -1,4 +1,4 @@
-extends MeshInstance3D
+extends StaticBody3D
 var SPEED = 0.1
 var direction = Vector3.ZERO
 
