@@ -1,5 +1,5 @@
 extends MeshInstance3D
-var SPEED = 1
+var SPEED = 0.1
 var direction = Vector3.ZERO
 
 func _ready():
