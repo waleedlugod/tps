@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://o075jf8e05gg"]
+[gd_scene load_steps=4 format=3 uid="uid://o075jf8e05gg"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_niuco"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_j3su8"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_7hhpl"]
+radius = 0.02
+
+[sub_resource type="SphereMesh" id="SphereMesh_vilr0"]
 radius = 0.02
 height = 0.04
 
-[node name="bullet" type="MeshInstance3D"]
-mesh = SubResource("SphereMesh_j3su8")
+[node name="bullet" type="StaticBody3D"]
 script = ExtResource("1_niuco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_7hhpl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_vilr0")
