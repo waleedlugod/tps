@@ -2,12 +2,16 @@ extends CharacterBody3D
 
 @onready var camera_mount: Node3D = $camera_mount
 @onready var camera: Node3D = $camera_mount/Camera3D
+@onready var camera_ray: Node3D = $camera_mount/Camera3D/RayCast3D
+@onready var player_ray: Node3D = $player_ray
 @onready var animation_player = $visuals/mixamo_base/AnimationPlayer
 @onready var visuals = $visuals
 
+var bullet_scene = preload('res://scenes/bullet.tscn')
+signal bullet_shot(origin, direction)
+
 var SPEED = 2.5
 const JUMP_VELOCITY = 4.5
-
 var walking_speed = 2.5
 var running_speed = 6.0
 
@@ -32,6 +36,15 @@ func _input(event):
 	
 
 func _physics_process(delta: float) -> void:
+	if camera_ray.is_colliding(): player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
+	else: player_ray.target_position = player_ray.to_local(camera_ray.to_global(camera_ray.target_position))
+
+	if Input.is_action_pressed("shoot"):
+		var bullet = bullet_scene.instantiate()
+		add_child(bullet)
+		bullet.global_position = player_ray.global_position
+		bullet.direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
+
 	
 	if !animation_player.is_playing():
 		is_locked=false
@@ -44,11 +57,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("run"):
 		SPEED = running_speed
 		running = true
-		print("running")
 	else: 
 		SPEED = walking_speed
 		running = false
-		print("walking")
 	
 	# Add the gravity.
 	if not is_on_floor():

@@ -48,27 +48,28 @@ environment = SubResource("Environment_vcbo4")
 [node name="Map" type="Node3D" parent="."]
 
 [node name="floor" type="CSGBox3D" parent="Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 247.948, 5.79611, -148.979)
 material_override = SubResource("StandardMaterial3D_jb143")
 use_collision = true
-size = Vector3(1000, 1, 1000)
+size = Vector3(100, 1, 100)
 
 [node name="box" type="CSGBox3D" parent="Map"]
-transform = Transform3D(-0.0261595, -0.999658, 0, 0.999658, -0.0261595, 0, 0, 0, 1, -103.495, 6.80047, 81.1447)
+transform = Transform3D(-0.0261595, -0.999658, 0, 0.999658, -0.0261595, 0, 0, 0, 1, -10, 1.00619, 13.8207)
 material_override = SubResource("StandardMaterial3D_edk3v")
 use_collision = true
 
 [node name="box2" type="CSGBox3D" parent="Map"]
-transform = Transform3D(0.0487445, 0.853847, 0.518237, -0.998334, 0.0576952, -0.00115671, -0.0308875, -0.517317, 0.855237, -104.569, 7.2413, 77.616)
+transform = Transform3D(0.0487445, 0.853847, 0.518237, -0.998334, 0.0576952, -0.00115671, -0.0308875, -0.517317, 0.855237, -10.4313, 1.10681, 0)
 material_override = SubResource("StandardMaterial3D_tnnj3")
 use_collision = true
 size = Vector3(2, 2, 2)
 
 [node name="box3" type="CSGBox3D" parent="Map"]
-transform = Transform3D(0.0487445, 0.853847, 0.518237, -0.998334, 0.0576952, -0.00115671, -0.0308875, -0.517317, 0.855237, -107.036, 7.82198, 82.3671)
+transform = Transform3D(0.0487445, 0.853847, 0.518237, -0.998334, 0.0576952, -0.00115671, -0.0308875, -0.517317, 0.855237, -16.936, 2, 0.502)
 material_override = SubResource("StandardMaterial3D_45ebj")
 use_collision = true
 size = Vector3(3, 3, 3)
 
 [node name="Player" parent="." instance=ExtResource("5_xefkg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101.865, 6.3279, 77.6132)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[connection signal="bullet_shot" from="Player" to="." method="_on_player_bullet_shot"]
