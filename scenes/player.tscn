@@ -3933,7 +3933,7 @@ playback_default_blend_time = 0.2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33586, 0)
 
 [node name="Camera3D" type="Camera3D" parent="camera_mount"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405078, 0.377367, 0.511284)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.604843, 0.377367, 0.650785)
 
 [node name="TextureRect" type="TextureRect" parent="camera_mount/Camera3D"]
 anchors_preset = 8
