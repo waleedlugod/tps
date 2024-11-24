@@ -4,7 +4,7 @@ extends CharacterBody3D
 @onready var camera: Node3D = $camera_mount/Camera3D
 @onready var camera_ray: Node3D = $camera_mount/Camera3D/RayCast3D
 @onready var player_ray: Node3D = $player_ray
-@onready var animation_player = $visuals/mixamo_base/AnimationPlayer
+@onready var animation_player = $visuals/model/AnimationPlayer
 @onready var visuals = $visuals
 
 signal bullet_shot(origin, direction)
@@ -16,7 +16,7 @@ var walking_speed = 2.5
 var running_speed = 6.0
 
 var running = false
-
+var is_shooting = false
 var is_locked = false
 
 var rng = RandomNumberGenerator.new()
@@ -28,6 +28,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	visuals.rotation_degrees.y = 180
 	
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -42,19 +43,19 @@ func _physics_process(delta: float) -> void:
 	else: player_ray.target_position = player_ray.to_local(camera_ray.to_global(camera_ray.target_position))
 
 	if Input.is_action_pressed("shoot"):
+		if animation_player.current_animation != "shoot":
+			animation_player.play("shoot")
+			is_locked = true
 		var target_direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
 		var spray = Vector3(0, rng.randf_range(-bullet_spray, bullet_spray), rng.randf_range(-bullet_spray, bullet_spray))
 		var final_direction = (target_direction + spray).normalized()
 		bullet_shot.emit(player_ray.global_position, final_direction)
-
-	
-	if !animation_player.is_playing():
-		is_locked=false
-	
-	if Input.is_action_just_pressed("kick"):
-		if animation_player.current_animation != "kick":
-			animation_player.play("kick")
-			is_locked = true
+	else:
+		# If shoot input is not pressed then return to idle animation
+		if animation_player.current_animation == "shoot":
+			animation_player.stop()
+			animation_player.play("idle") 
+			is_locked=false
 	
 	if Input.is_action_pressed("run"):
 		SPEED = running_speed
@@ -67,9 +68,6 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -77,15 +75,31 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		if !is_locked:
-			if running: 
-				if animation_player.current_animation != "running":
-					animation_player.play("running")
-			else: 
-				if animation_player.current_animation != "walking":
-					animation_player.play("walking")
-			#rotate player toward the direction that we are walking
-			
-			visuals.look_at (position + direction)
+			if running:
+				if animation_player.current_animation != "forward":
+					animation_player.play("forward")
+					print("running")
+			else:
+				if input_dir.x < 0:
+					if animation_player.current_animation != "left":
+						animation_player.play("left")
+						print("left")
+				elif input_dir.x > 0: 
+					if animation_player.current_animation != "right":
+						animation_player.play("right")
+						print("right")
+				elif input_dir.y < 0:  # Moving backward
+					if animation_player.current_animation != "backward":
+						animation_player.play("backward")
+						print("backward")
+				else:  # Regular forward movement
+					if animation_player.current_animation != "forward":
+						animation_player.play("forward")
+						print("forward")
+
+			if input_dir.y > 0:  # Only rotate when moving forward
+				visuals.look_at(position + global_transform.basis.z, Vector3.UP)
+
 			
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
