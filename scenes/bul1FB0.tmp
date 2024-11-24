@@ -9,7 +9,7 @@ radius = 0.02
 radius = 0.02
 height = 0.04
 
-[node name="bullet" type="Area3D"]
+[node name="bullet" type="StaticBody3D"]
 script = ExtResource("1_niuco")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -17,5 +17,3 @@ shape = SubResource("SphereShape3D_7hhpl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_vilr0")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

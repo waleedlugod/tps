@@ -17,5 +17,3 @@ shape = SubResource("SphereShape3D_7hhpl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_vilr0")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
