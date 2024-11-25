@@ -51,10 +51,12 @@ func _input(event):
 	
 
 func _physics_process(delta: float) -> void:
+	gun_container.rotation_degrees.x = -camera_mount.rotation_degrees.x
 	if camera_ray.is_colliding():
 		player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
-		gun_container.rotation_degrees.x = -camera_mount.rotation_degrees.x
-	else: player_ray.target_position = Vector3(0, 0, -20)
+	else:
+		player_ray.target_position = player_ray.to_local(camera_ray.to_global(camera_ray.target_position))
+		player_ray.target_position.x = 0
 	
 	#aiming
 	#if is_aiming:
