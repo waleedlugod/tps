@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_niuco"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7hhpl"]
-radius = 0.02
+radius = 0.04
 
 [sub_resource type="SphereMesh" id="SphereMesh_vilr0"]
-radius = 0.02
-height = 0.04
+radius = 0.04
+height = 0.08
 
 [node name="bullet" type="Area3D"]
 script = ExtResource("1_niuco")

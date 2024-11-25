@@ -1,6 +1,6 @@
 extends StaticBody3D
 
-@export var explosion_scene = preload("res://scenes/explosion.tscn") 
+@export var explosion_scene = preload("res://scenes/explosionbig.tscn") 
 var health = 5
 
 # Called when the node enters the scene tree for the first time.
@@ -15,4 +15,5 @@ func hit() -> void:
 		var explosion = explosion_scene.instantiate()
 		get_parent().add_child(explosion)
 		explosion.global_position = global_position
+		explosion.scale = scale
 		queue_free()
