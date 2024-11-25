@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dx2j7lnkvys87"]
+[gd_scene load_steps=14 format=3 uid="uid://dx2j7lnkvys87"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_gmvg0"]
 [ext_resource type="PackedScene" uid="uid://bwa4fo2w0uwd1" path="res://scenes/box.tscn" id="4_dlsyv"]
@@ -31,6 +31,16 @@ material = SubResource("StandardMaterial3D_saqbw")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cb3er"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q2aeh"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gskqq"]
+material = SubResource("StandardMaterial3D_q2aeh")
+size = Vector3(5, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k05lo"]
+size = Vector3(5, 5, 1)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_gmvg0")
 
@@ -42,9 +52,6 @@ shadow_enabled = true
 environment = SubResource("Environment_vcbo4")
 
 [node name="Map" type="Node3D" parent="."]
-
-[node name="box" parent="Map" instance=ExtResource("4_dlsyv")]
-transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 1, 0, 1.77992, -2.08836)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map"]
 physics_material_override = SubResource("PhysicsMaterial_70ogw")
@@ -67,6 +74,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1199, 0.0346203, 6.66074)
 
 [node name="box5" parent="Map" instance=ExtResource("4_dlsyv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95007, 0.495374, -7.04124)
+
+[node name="ind_box" type="StaticBody3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.21203, -5.10367)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/ind_box"]
+mesh = SubResource("BoxMesh_gskqq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/ind_box"]
+shape = SubResource("BoxShape3D_k05lo")
 
 [node name="Player" parent="." instance=ExtResource("5_xefkg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
