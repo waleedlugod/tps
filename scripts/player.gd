@@ -3,7 +3,8 @@ extends CharacterBody3D
 @onready var camera_mount: Node3D = $camera_mount
 @onready var camera: Node3D = $camera_mount/Camera3D
 @onready var camera_ray: Node3D = $camera_mount/Camera3D/RayCast3D
-@onready var player_ray: Node3D = $player_ray
+@onready var player_ray: Node3D = $visuals/player/gun_container/Cylinder/player_ray
+@onready var gun_container: Node3D = $visuals/player/gun_container
 @onready var animation_player = $visuals/player/AnimationPlayer
 @onready var visuals = $visuals
 
@@ -34,7 +35,6 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	visuals.rotation_degrees.y = 180
 	
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -51,7 +51,9 @@ func _input(event):
 	
 
 func _physics_process(delta: float) -> void:
-	if camera_ray.is_colliding(): player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
+	if camera_ray.is_colliding():
+		player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
+		gun_container.rotation_degrees.x = -camera_mount.rotation_degrees.x
 	else: player_ray.target_position = Vector3(0, 0, -20)
 	
 	#aiming
