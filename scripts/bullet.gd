@@ -7,10 +7,17 @@ var direction = Vector3.ZERO
 
 # Called every frame
 func _process(delta: float):
-	if has_overlapping_bodies():
-		_on_hit(get_overlapping_bodies()[0])
+	var ray_length = SPEED * delta 
+	var ray_end = global_position + direction.normalized() * ray_length
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = global_position
+	query.to = ray_end
+	query.exclude = [self]
+	var result = space_state.intersect_ray(query)
+	if result:
+		_on_hit(result.collider)
 	else:
-		global_position += direction * SPEED * delta 
+		global_position += direction.normalized() * SPEED * delta
 
 func _on_hit(collider):
 	if collider is StaticBody3D or collider is CSGBox3D:

@@ -44,10 +44,7 @@ environment = SubResource("Environment_vcbo4")
 [node name="Map" type="Node3D" parent="."]
 
 [node name="box" parent="Map" instance=ExtResource("4_dlsyv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.972305, -2.08836)
-
-[node name="box" parent="Map/box" instance=ExtResource("4_dlsyv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95007, -0.476931, -4.95288)
+transform = Transform3D(3, 0, 0, 0, 5, 0, 0, 0, 1, 0, 1.77992, -2.08836)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map"]
 physics_material_override = SubResource("PhysicsMaterial_70ogw")
@@ -67,6 +64,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.48264, 0.32307, 3.38249)
 
 [node name="box4" parent="Map" instance=ExtResource("4_dlsyv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1199, 0.0346203, 6.66074)
+
+[node name="box5" parent="Map" instance=ExtResource("4_dlsyv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95007, 0.495374, -7.04124)
 
 [node name="Player" parent="." instance=ExtResource("5_xefkg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
