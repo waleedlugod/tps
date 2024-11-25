@@ -20,8 +20,6 @@ var is_locked = false
 var is_aiming = false
 var is_shooting = false
 
-var rng = RandomNumberGenerator.new()
-
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
 
@@ -52,7 +50,7 @@ func _input(event):
 
 func _physics_process(delta: float) -> void:
 	if camera_ray.is_colliding(): player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
-	else: player_ray.target_position = player_ray.to_local(camera_ray.to_global(camera_ray.target_position))
+	else: player_ray.target_position = Vector3(0, 0, -20)
 	
 	#aiming
 	#if is_aiming:
@@ -79,9 +77,7 @@ func _physics_process(delta: float) -> void:
 				animation_player.play("idle")
 				is_locked = true
 			var target_direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
-			var spray = Vector3(0, rng.randf_range(-bullet_spray, bullet_spray), rng.randf_range(-bullet_spray, bullet_spray))
-			var final_direction = (target_direction + spray).normalized()
-			bullet_shot.emit(player_ray.global_position, final_direction)
+			bullet_shot.emit(player_ray.global_position, target_direction)
 		
 		else:
 			is_shooting = false
@@ -128,11 +124,13 @@ func _physics_process(delta: float) -> void:
 						print("right")
 				elif input_dir.y < 0:  # Moving backward
 					if animation_player.current_animation != "backward":
-						animation_player.play("backward")
+						# animation is named wrong, wont change bcs im lazy
+						animation_player.play("forward")
 						print("backward")
 				else:  # Regular forward movement
 					if animation_player.current_animation != "forward":
-						animation_player.play("forward")
+						# animation is named wrong, wont change bcs im lazy
+						animation_player.play("backward")
 						print("forward")
 
 			if input_dir.y > 0:  # Only rotate when moving forward
