@@ -41,7 +41,8 @@ func _input(event):
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
 		#so that the player doesnt face where the camera moves
 		#visuals.rotate_y(deg_to_rad(event.relative.x*sens_horizontal))
-		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sens_vertical))
+		camera_mount.rotate_x(deg_to_rad(clamp(-event.relative.y*sens_vertical, -90, 90)))
+		camera_mount.rotation_degrees.x = clamp(camera_mount.rotation_degrees.x, -90, 90)
 	#aiming
 	#if Input.is_action_just_pressed("aim"):
 		#is_aiming = true
