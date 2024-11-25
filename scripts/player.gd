@@ -9,6 +9,7 @@ extends CharacterBody3D
 
 signal bullet_shot(origin, direction)
 var bullet_spray = 0.02
+var shoot_delta = 0
 
 var SPEED = 2.5
 const JUMP_VELOCITY = 4.5
@@ -68,10 +69,12 @@ func _physics_process(delta: float) -> void:
 
 	
 	#shooting
+	shoot_delta += delta
 	if Input.is_action_pressed("shoot"):
 		#will not shoot if not aiming
 		#if is_aiming == true:
-		if !is_shooting:
+		if !is_shooting && shoot_delta > 0.2:
+			shoot_delta = 0
 			#is_shooting = true  # Lock the player
 			if animation_player.current_animation != "idle":
 				animation_player.play("idle")

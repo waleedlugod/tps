@@ -7,7 +7,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_uqycj"]
 
 [node name="box" type="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_s5rg5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
