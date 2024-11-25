@@ -4,7 +4,7 @@ extends CharacterBody3D
 @onready var camera: Node3D = $camera_mount/Camera3D
 @onready var camera_ray: Node3D = $camera_mount/Camera3D/RayCast3D
 @onready var player_ray: Node3D = $player_ray
-@onready var animation_player = $visuals/model/AnimationPlayer
+@onready var animation_player = $visuals/player/AnimationPlayer
 @onready var visuals = $visuals
 
 signal bullet_shot(origin, direction)
@@ -16,13 +16,20 @@ var walking_speed = 2.5
 var running_speed = 6.0
 
 var running = false
-var is_shooting = false
 var is_locked = false
+var is_aiming = false
+var is_shooting = false
 
 var rng = RandomNumberGenerator.new()
 
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
+
+@export var normal_fov = 75.0      # Normal FOV
+@export var aim_fov = 50.0         # Aiming FOV
+
+#@export var normal_camera_offset = Vector3(1.5, 2.0, -4.0)  # Offset for normal movement
+#@export var aim_camera_offset = Vector3(0.5, 2.0, -2.0)     # Offset for aiming
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -36,27 +43,58 @@ func _input(event):
 		#so that the player doesnt face where the camera moves
 		#visuals.rotate_y(deg_to_rad(event.relative.x*sens_horizontal))
 		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sens_vertical))
+	#aiming
+	#if Input.is_action_just_pressed("aim"):
+		#is_aiming = true
+	#elif Input.is_action_just_released("aim"):
+		#is_aiming = false
 	
 
 func _physics_process(delta: float) -> void:
 	if camera_ray.is_colliding(): player_ray.target_position = player_ray.to_local(camera_ray.get_collision_point())
 	else: player_ray.target_position = player_ray.to_local(camera_ray.to_global(camera_ray.target_position))
+	
+	#aiming
+	#if is_aiming:
+	# Camera settings for aiming
+		#camera.fov = lerp(camera.fov, aim_fov, 0.1)
+		#camera_mount.position = camera_mount.position.lerp(aim_camera_offset, 0.1)
+		#if animation_player.current_animation != "idle":
+			#animation_player.play("idle")
+	#else:
+		# Camera settings for normal mode
+		#camera.fov = lerp(camera.fov, normal_fov, 0.1)
+		#camera_mount.position = camera_mount.position.lerp(normal_camera_offset, 0.1)
+		#if animation_player.current_animation != "idle":
+			#animation_player.play("idle")
 
+	
+	#shooting
 	if Input.is_action_pressed("shoot"):
-		if animation_player.current_animation != "shoot":
-			animation_player.play("shoot")
-			is_locked = true
-		var target_direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
-		var spray = Vector3(0, rng.randf_range(-bullet_spray, bullet_spray), rng.randf_range(-bullet_spray, bullet_spray))
-		var final_direction = (target_direction + spray).normalized()
-		bullet_shot.emit(player_ray.global_position, final_direction)
+		#will not shoot if not aiming
+		#if is_aiming == true:
+		if !is_shooting:
+			#is_shooting = true  # Lock the player
+			if animation_player.current_animation != "idle":
+				animation_player.play("idle")
+				is_locked = true
+			var target_direction = (player_ray.to_global(player_ray.target_position) - player_ray.global_position).normalized()
+			var spray = Vector3(0, rng.randf_range(-bullet_spray, bullet_spray), rng.randf_range(-bullet_spray, bullet_spray))
+			var final_direction = (target_direction + spray).normalized()
+			bullet_shot.emit(player_ray.global_position, final_direction)
+		
+		else:
+			is_shooting = false
+			is_locked=false
 	else:
 		# If shoot input is not pressed then return to idle animation
-		if animation_player.current_animation == "shoot":
-			animation_player.stop()
-			animation_player.play("idle") 
-			is_locked=false
-	
+		#if animation_player.current_animation == "shoot":
+		#animation_player.stop()
+		#animation_player.play("idle") 
+		is_shooting = false
+		is_locked=false
+		
+	#running
 	if Input.is_action_pressed("run"):
 		SPEED = running_speed
 		running = true
@@ -73,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and !is_shooting:
 		if !is_locked:
 			if running:
 				if animation_player.current_animation != "forward":
