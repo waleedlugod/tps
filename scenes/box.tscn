@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bwa4fo2w0uwd1"]
+[gd_scene load_steps=4 format=3 uid="uid://bwa4fo2w0uwd1"]
+
+[ext_resource type="Script" path="res://scripts/box.gd" id="1_s5rg5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dkd3a"]
 
@@ -6,6 +8,7 @@
 
 [node name="box" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_s5rg5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_dkd3a")
